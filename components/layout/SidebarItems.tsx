@@ -4,7 +4,7 @@ interface SidebarItemsProps {
     label: string,
     herf?: string,
     icons: IconType;
-    onClick?: Function;
+    onClick?: () => void;
 }
 const SidebarItems: React.FC<SidebarItemsProps> = ({ label, herf, icons: Icon, onClick }) => {
     return (
