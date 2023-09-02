@@ -1,25 +1,32 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { IconType } from "react-icons";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import useLoginModal from "../../hooks/useLoginModal";
 
 interface SidebarItemsProps {
     label: string,
     href?: string,
     icons: IconType;
     onClick?: () => void;
+    auth ?: boolean
 }
-const SidebarItems: React.FC<SidebarItemsProps> = ({ label, href, icons: Icon, onClick }) => {
-    
+const SidebarItems: React.FC<SidebarItemsProps> = ({ label, href, icons: Icon, onClick, auth }) => {
+    const {data : currentUser} = useCurrentUser();
+    const loginModal = useLoginModal();
     const router = useRouter();
-
+    
     const handleClick = useCallback(() => {
         if(onClick){
             return onClick();
         }
-        if(href){
+        if(auth && !currentUser){
+            loginModal.onOpen();
+        }
+        else if(href){
             router.push(href);
         }
-    }, [router, onClick, href])
+    }, [router, onClick, href, currentUser, auth, loginModal])
     
     return (
         <div onClick={handleClick} className=" flex flex-col">
