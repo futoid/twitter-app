@@ -105,7 +105,7 @@ const RegisterModal = () => {
                 onSubmit={onSubmit}
                 body={bodyContent}
                 footer={footerElement}
-            />)
+            />
         </>
     );
 }

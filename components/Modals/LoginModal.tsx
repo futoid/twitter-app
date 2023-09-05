@@ -24,11 +24,9 @@ const LoginModal = () => {
             })
 
             setIsLoading(false);
-            toast.success("Logged IN");
         }
         catch(error){
             console.log(error);
-            toast.error("Try Again");
         }
         finally{
             setIsLoading(false);
@@ -82,7 +80,7 @@ const LoginModal = () => {
             onSubmit={onSubmit}
             body={bodyContent}
             footer={footerElement}
-        />)
+        />
         </> 
      );
 }
