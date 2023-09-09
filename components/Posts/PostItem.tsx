@@ -17,8 +17,6 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
 
-  const { data: currentUser } = useCurrentUser();
-
   const goToUser = useCallback((event: any) => {
     event.stopPropagation();
     router.push(`/users/${data.user.id}`)
@@ -56,14 +54,14 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
       <div className="flex flex-row items-start gap-3">
         <Avatar userId={data.user.id} />
         <div>
-            <div className=' flex flex-row items-start gap-3'>
+            <div className=' flex flex-row items-center gap-3'>
                 <p onClick={goToUser} className=' text-white font-semibold cursor-pointer'>
                     {data.user.name}
                 </p>
                 <span onClick={goToUser} className=' text-neutral-500 cursor-pointer hidden md:block'>
                     @{data.user.username}
                 </span>
-                <span className=' text-neutral-500 text-sm'>
+                <span className=' text-neutral-600 text-sm'>
                     {createdAt}
                 </span>
             </div>

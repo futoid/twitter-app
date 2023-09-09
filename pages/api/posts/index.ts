@@ -23,7 +23,6 @@ export default async function handler(req : NextApiRequest, res  : NextApiRespon
 
         if(req.method === 'GET'){
             const {userId} = req.query;
-            console.log({userId});
             let posts;
             if(userId && typeof userId === 'string'){
                 posts = await prisma?.post.findMany({
