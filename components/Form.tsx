@@ -32,6 +32,8 @@ const Form: React.FC<FormProps> = ({
         try {
             setIsLoading(true);
 
+            const url = isComment ? `/api/comments?postId=${postId}` : "/api/posts";
+
             axios.post("/api/posts", { body });
 
             toast.success("Tweeted");
