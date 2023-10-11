@@ -1,4 +1,4 @@
-import { error } from "console";
+import prisma from "../../libs/prismadb";
 import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "../../libs/serverAuth";
 
