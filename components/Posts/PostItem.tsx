@@ -8,17 +8,18 @@ import useCurrentUser from '../../hooks/useCurrentUser';
 import useLike from '../../hooks/useLike';
 
 import Avatar from '../Avatar';
+import toast from 'react-hot-toast';
 
 interface PostItemProps {
   data: Record<string, any>;
-  userId : string;
+  userId: string;
 }
 
 const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   const router = useRouter();
   const loginModal = useLoginModal();
-  const {data : currentUser} = useCurrentUser();
-  const {hasLiked , toggleLike} = useLike({postId : data.id , userId});
+  const { data: currentUser } = useCurrentUser();
+  const { hasLiked, toggleLike } = useLike({ postId: data.id, userId });
 
   const goToUser = useCallback((event: any) => {
     event.stopPropagation();
@@ -26,17 +27,22 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   }, [router, data.user.id]);
 
   const goToPost = useCallback(() => {
-    router.push(`/posts/${data.id}`);
-  }, [router, data.id]);
+    if (!currentUser){
+      toast.error("Please Register/Login");
+    }
+    else {
+      router.push(`/posts/${data.id}`);
+    }
+  }, [router, data.id,currentUser]);
 
-  const onLike = useCallback((event : any) => {
-        event.stopPropagation();
+  const onLike = useCallback((event: any) => {
+    event.stopPropagation();
 
-        if(!currentUser){
-          return loginModal.onOpen();
-        }
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
 
-        toggleLike();
+    toggleLike();
   }, [loginModal, currentUser, toggleLike]);
 
   const createdAt = useMemo(() => {
@@ -50,7 +56,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
   const LikeIcon = hasLiked ? AiFillHeart : AiOutlineHeart;
 
   return (
-    <div 
+    <div
       onClick={goToPost}
       className="
         border-b-[1px] 
@@ -63,34 +69,34 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
       <div className="flex flex-row items-start gap-3">
         <Avatar userId={data.user.id} />
         <div>
-            <div className=' flex flex-row items-center gap-3'>
-                <p onClick={goToUser} className=' text-white font-semibold cursor-pointer'>
-                    {data.user.name}
-                </p>
-                <span onClick={goToUser} className=' text-neutral-500 cursor-pointer hidden md:block'>
-                    @{data.user.username}
-                </span>
-                <span className=' text-neutral-600 text-sm'>
-                    {createdAt}
-                </span>
+          <div className=' flex flex-row items-center gap-3'>
+            <p onClick={goToUser} className=' text-white font-semibold cursor-pointer'>
+              {data.user.name}
+            </p>
+            <span onClick={goToUser} className=' text-neutral-500 cursor-pointer hidden md:block'>
+              @{data.user.username}
+            </span>
+            <span className=' text-neutral-600 text-sm'>
+              {createdAt}
+            </span>
+          </div>
+          <div className=' text-white mt-1'>
+            {data.body}
+          </div>
+          <div className='flex flex-row items-center mt-3 gap-10'>
+            <div className=' flex flex-row items-center text-neutral-500 gap-2 cursor-pointer tranis hover:text-sky-500'>
+              <AiOutlineMessage size={20} />
+              <p>
+                {data.comments?.length || 0}
+              </p>
             </div>
-            <div className=' text-white mt-1'> 
-                {data.body}
+            <div onClick={onLike} className=' flex flex-row items-center text-neutral-500 gap-2 cursor-pointer tranis hover:text-red-500'>
+              <LikeIcon size={20} color={hasLiked ? 'red' : ''} />
+              <p>
+                {data.likedIds?.length || 0}
+              </p>
             </div>
-            <div className='flex flex-row items-center mt-3 gap-10'>
-                <div className=' flex flex-row items-center text-neutral-500 gap-2 cursor-pointer tranis hover:text-sky-500'>
-                    <AiOutlineMessage size={20}/>
-                    <p>
-                        {data.comments?.length || 0}
-                    </p>
-                </div>
-                <div onClick={onLike} className=' flex flex-row items-center text-neutral-500 gap-2 cursor-pointer tranis hover:text-red-500'>
-                    <LikeIcon size={20} color={hasLiked ? 'red' : ''}/>
-                    <p>
-                        {data.likedIds?.length || 0}
-                    </p>
-                </div>
-            </div>
+          </div>
         </div>
       </div>
     </div>
