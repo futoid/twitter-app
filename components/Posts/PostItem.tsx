@@ -11,7 +11,7 @@ import Avatar from '../Avatar';
 
 interface PostItemProps {
   data: Record<string, any>;
-  userId: string;
+  userId : string;
 }
 
 const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
@@ -37,7 +37,7 @@ const PostItem: React.FC<PostItemProps> = ({ data = {}, userId }) => {
         }
 
         toggleLike();
-  }, [loginModal, currentUser, toggleLike, hasLiked]);
+  }, [loginModal, currentUser, toggleLike]);
 
   const createdAt = useMemo(() => {
     if (!data?.createdAt) {

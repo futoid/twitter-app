@@ -4,9 +4,12 @@ import { ClipLoader } from "react-spinners";
 import Header from "../../components/Header";
 import PostItem from "../../components/Posts/PostItem";
 import Form from "../../components/Form";
+import useCurrentUser from "../../hooks/useCurrentUser";
+import CommentFeed from "../../components/Posts/commentFeed";
 
 const PostView = () => {
-    
+    const currentUser = useCurrentUser();
+    console.log(currentUser);
     const router = useRouter();
     const {postId} = router.query;
 
@@ -23,12 +26,13 @@ const PostView = () => {
     return ( 
         <div>
             <Header label="Tweet" showBackArrow/>
-            <PostItem data={fetchedPost}/>
+            <PostItem data={fetchedPost} userId={currentUser.data.id}/>
             <Form 
                 postId={postId as string}
                 isComment = "true"
                 placeholder="Your reply"
             />
+            <CommentFeed comments={fetchedPost?.comments}/>
         </div>
      );
 }

@@ -15,7 +15,8 @@ const PostFeed : React.FC<PostFeedProps>= ({userId}) => {
                 userId={userId as string}
                 key={post.id}
             />
-        ))}
+        ))
+        }
         </>
      );
 }

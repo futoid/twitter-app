@@ -44,7 +44,7 @@ const RegisterModal = () => {
         finally {
             setIsLoading(false);
         }
-    }, [email, username, name, password, registerModal])
+    }, [email, username, name, password])
 
     const onToggle = useCallback(() => {
         if (isLoading) {
