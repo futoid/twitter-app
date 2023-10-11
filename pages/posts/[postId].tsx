@@ -9,7 +9,6 @@ import CommentFeed from "../../components/Posts/commentFeed";
 
 const PostView = () => {
     const currentUser = useCurrentUser();
-    console.log(currentUser);
     const router = useRouter();
     const {postId} = router.query;
 
@@ -26,7 +25,7 @@ const PostView = () => {
     return ( 
         <div>
             <Header label="Tweet" showBackArrow/>
-            <PostItem data={fetchedPost} userId={currentUser.data.id}/>
+            <PostItem data={fetchedPost} userId={currentUser?.data.id}/>
             <Form 
                 postId={postId as string}
                 isComment = "true"
